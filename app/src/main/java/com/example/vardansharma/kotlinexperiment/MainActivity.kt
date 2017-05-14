@@ -7,13 +7,15 @@ import android.text.TextUtils.isEmpty
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
+
+// simple login using goodness of kotlin
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btn_login.setOnClickListener { v -> { loginClicked() } }
+        btn_login.setOnClickListener { this::loginClicked }
     }
 
     private fun loginClicked() {
@@ -23,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         when {
             isEmpty(emailText) -> toast("email empty")
             isEmpty(passwordText) -> toast("password empty")
-            emailText.isValidEmail(emailText) -> toast("invalid email")
+            emailText.isValidEmail() -> toast("invalid email")
             else -> toast("login sucess")
         }
     }
@@ -31,10 +33,10 @@ class MainActivity : AppCompatActivity() {
     fun Context.toast(message: CharSequence) =
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
-    fun CharSequence.isValidEmail(target: CharSequence?): Boolean {
-        when (target) {
+    fun CharSequence.isValidEmail(): Boolean {
+        when (this) {
             null -> return false
-            else -> return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()
+            else -> return android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
         }
     }
 }
